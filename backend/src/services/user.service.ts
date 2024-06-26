@@ -16,7 +16,7 @@ export class UserService{
         if(!user){
             throw new ApiError(errorCodes.NOT_FOUND,"No such user exists!")
         }
-        const match = bcrypt.compare(credential.password,user.password);
+        const match = await bcrypt.compare(credential.password,user.password);
         if(!match){
             throw new ApiError(errorCodes.UNAUTHORIZED,"Invalid password");
         }
