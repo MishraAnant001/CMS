@@ -8,7 +8,7 @@ export class ContentService{
         if(data.length==0){
             throw new ApiError(errorCodes.NOT_FOUND,"No content found!")
         }
-        return new ApiResponse(successCodes.OK,"Contents fetched successfully")
+        return new ApiResponse(successCodes.OK,data,"Contents fetched successfully")
     }
 
     async getContentByUser(user_id:string){
@@ -16,12 +16,12 @@ export class ContentService{
         if(data.length==0){
             throw new ApiError(errorCodes.NOT_FOUND,"No content found!")
         }
-        return new ApiResponse(successCodes.OK,"Contents fetched successfully")
+        return new ApiResponse(successCodes.OK,data,"Contents fetched successfully")
     }
 
     async createContent(contentData:IContent){
         const data = await Content.create(contentData)
-        return new ApiResponse(successCodes.CREATED,"Content created successfully")
+        return new ApiResponse(successCodes.CREATED,data,"Content created successfully")
     }
 
     async updateContent(content_id:string,contentData:IContent){
