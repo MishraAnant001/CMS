@@ -6,16 +6,8 @@ const mediaSchema=new mongoose.Schema({
         ref:"User",
         required:true
     },
-    name:{
-        type:String,
-        required:true
-    },
-    type:{
-        type:String,
-        required:true
-    },
-    path:{
-        type:String,
+    file:{
+        type:Object,
         required:true
     },
     likes:{

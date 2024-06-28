@@ -1,0 +1,18 @@
+<p-table [value]="userData" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Join Date</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.createdAt | date : "fullDate" }} </td>
+            <td><button class="btn btn-outline-danger" (click)="onDelete(user)">Delete</button></td>
+        </tr>
+    </ng-template>
+</p-table>

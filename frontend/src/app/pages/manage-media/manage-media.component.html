@@ -1,0 +1,22 @@
+<div class="d-flex flex-wrap gap-2 p-3 justify-content-center" >
+    <div class="card text-start d-inline-block rounded-3 flex-column d-flex justify-content-center align-items-center p-3" style="width:250px"  *ngFor="let file of mediaData">
+        <div *ngIf="file.file.mimetype.indexOf('image')>-1">
+            <img  src="http://localhost:8000/{{file.file.filename}}" alt="image" />
+            <p class="text-center">uploaded by : {{file.user}}</p>
+            <div class="d-flex justify-content-center mt-2">
+                <a href="http://localhost:8000/{{file.file.filename}}" target="_blank" class="btn btn-outline-warning">View</a>
+                <button class="btn btn-outline-danger ms-2" (click)="onDelete(file)">Delete</button>
+            </div>
+        </div>
+        <div *ngIf="file.file.mimetype.indexOf('video')>-1">
+            <video controls>
+                <source src="http://localhost:8000/{{file.file.filename}}" type="video/mp4"/>
+            </video>
+            <p class="text-center">uploaded by : {{file.user}}</p>
+            <div class="d-flex justify-content-center my-1">
+                <a href="http://localhost:8000/{{file.file.filename}}" target="_blank" class="btn btn-outline-warning">View</a>
+                <button class="btn btn-outline-danger ms-2" (click)="onDelete(file)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

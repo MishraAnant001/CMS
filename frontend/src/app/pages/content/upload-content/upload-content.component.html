@@ -1,0 +1,16 @@
+<h2 *ngIf="!edited" class="text-center">Create Content</h2>
+<h2 *ngIf="edited" class="text-center">Update Content</h2>
+<form [formGroup]="form">
+    <div class="mb-3 container-fluid">
+        <label for="title" class="form-label fs-3 ms-2">Title :</label>
+        <input type="text" formControlName="title" #title id="title" class="form-control w-25 ms-2 h-50"
+            [ngClass]="{'is-invalid': submitted && f['title'].errors }">
+        <div class="invalid-feedback ms-3" *ngIf="{'is-invalid': submitted && f['title'].errors}">title is required
+        </div>
+    </div>
+</form>
+<div #editorContainer class="editor-container" ></div>
+<div class="d-flex justify-content-center mt-3">
+    <button (click)="submit()" *ngIf="!edited" class="btn btn-success">submit</button>
+    <button (click)="submit()" *ngIf="edited" class="btn btn-success">update</button>
+</div>

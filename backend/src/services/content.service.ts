@@ -4,7 +4,23 @@ import { ApiError, ApiResponse, errorCodes, successCodes } from "../utils";
 
 export class ContentService{
     async getAllContents(){
-        const data = await Content.find({})
+        const data = await Content.aggregate([
+            {
+                $lookup: {
+                  from: "users",
+                  localField: "author",
+                  foreignField: "_id",
+                  as: "author"
+                }
+              },
+              {
+                $project: {
+                  author: { $first: ["$author.name"] },
+                  content:1,
+                  title:1
+                }
+              }
+        ])
         if(data.length==0){
             throw new ApiError(errorCodes.NOT_FOUND,"No content found!")
         }
@@ -25,7 +41,7 @@ export class ContentService{
     }
 
     async updateContent(content_id:string,contentData:IContent){
-        const data = await Content.findByIdAndUpdate(content_id,contentData)
+        const data = await Content.findByIdAndUpdate(content_id,contentData,{new:true})
         if(!data){
             throw new ApiError(errorCodes.NOT_FOUND,"No content found!")
         }

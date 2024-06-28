@@ -20,4 +20,5 @@ export const errorHandler =(error:any,req:Request,res:Response,next:NextFunction
         success:false,
         message:error.message
     })
+    // next(error)
 }

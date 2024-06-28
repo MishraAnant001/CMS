@@ -29,4 +29,13 @@ export class UserService{
         });
         return new ApiResponse(successCodes.OK,{token,user},"Login Successfull")
     }
+    async getAllUsers(){
+        const data = await User.find({role:'user'});
+        return new ApiResponse(successCodes.OK,data,"Users fetched successfully")
+    }
+    
+    async deleteUser(id:string){
+        const data = await User.findByIdAndUpdate(id)
+        return new ApiResponse(successCodes.OK,data,"User deleted successfully")
+    }
 }

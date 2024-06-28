@@ -6,6 +6,7 @@ import config from "config"
 
 export class Authentication{
     async authenticateUser(req:IRequest,res:Response,next:NextFunction){
+        // console.log(req);
         try {
             const token  = req.headers.authorization?.split(" ")[1]
             if(!token){

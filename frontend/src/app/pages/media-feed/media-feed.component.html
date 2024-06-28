@@ -1,0 +1,24 @@
+<div class="d-flex justify-content-center flex-wrap gap-2 p-3 " >
+    <div class="card text-start rounded-3 d-flex justify-content-center p-3" style="width:400px"  *ngFor="let file of mediaData">
+        <div *ngIf="file.file.mimetype.indexOf('image')>-1" class="text-center">
+            <img  src="http://localhost:8000/{{file.file.filename}}" alt="image" />
+            <p class="text-center">uploaded by : {{file.user}}</p>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+                <a href="http://localhost:8000/{{file.file.filename}}" target="_blank" class="btn btn-outline-warning">View <i class="bi bi-binoculars-fill ms-2"></i></a>
+                <button class="btn btn-outline-info ms-2 like" (click)="onLike(file)">like <i class="bi bi-hand-thumbs-up-fill"></i></button>
+                <button class="btn btn-outline-success ms-2 like" (click)="onLike(file)">comment <i class="bi bi-chat-left-dots-fill ms-2"></i></button>
+            </div>
+        </div>
+        <div *ngIf="file.file.mimetype.indexOf('video')>-1" class="text-center">
+            <video controls>
+                <source src="http://localhost:8000/{{file.file.filename}}" type="video/mp4"/>
+            </video>
+            <p class="text-center">uploaded by : {{file.user}}</p>
+            <div class="d-flex justify-content-center my-1">
+                <a href="http://localhost:8000/{{file.file.filename}}" target="_blank" class="btn btn-outline-warning">View <i class="bi bi-binoculars-fill ms-2"></i></a>
+                <button class="btn btn-outline-info ms-2 like" (click)="onLike(file)">Like <i class="bi bi-hand-thumbs-up-fill"></i></button>
+                <button class="btn btn-outline-success ms-2 like" (click)="onLike(file)">comment <i class="bi bi-chat-left-dots-fill ms-2"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

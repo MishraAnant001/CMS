@@ -6,21 +6,22 @@ import { mainRouter } from './src/routes';
 import { errorHandler } from './src/middlewares';
 
 const app = express();
-app.use(express.json());
-app.use(urlencoded({ extended: false }));
 app.use(cors({
-    origin: "localhost:4200",
+    origin: "http://localhost:4200",
     credentials: true
 }));
+app.use(express.json({limit:"500mb"}));
+app.use(urlencoded({ extended: false,limit:"500mb" }));
+app.use(express.static('./src/public'))
 app.use(mainRouter);
 app.use(errorHandler);
 
 
-(() => {
+(async () => {
     try {
         const port: number = config.get("PORT");
         const url: string = config.get("MONGO_URI");
-        connectdb(url);
+        await connectdb(url);
         console.log("database connection established");
         app.listen(port, () => {
             console.log(`server is running on port ${port}`);
