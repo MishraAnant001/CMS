@@ -1,24 +1,73 @@
-<div class="d-flex justify-content-center flex-wrap gap-2 p-3 " >
-    <div class="card text-start rounded-3 d-flex justify-content-center p-3" style="width:400px"  *ngFor="let file of mediaData">
-        <div *ngIf="file.file.mimetype.indexOf('image')>-1" class="text-center">
-            <img  src="http://localhost:8000/{{file.file.filename}}" alt="image" />
-            <p class="text-center">uploaded by : {{file.user}}</p>
-            <div class="d-flex justify-content-center align-items-center mt-2">
-                <a href="http://localhost:8000/{{file.file.filename}}" target="_blank" class="btn btn-outline-warning">View <i class="bi bi-binoculars-fill ms-2"></i></a>
-                <button class="btn btn-outline-info ms-2 like" (click)="onLike(file)">like <i class="bi bi-hand-thumbs-up-fill"></i></button>
-                <button class="btn btn-outline-success ms-2 like" (click)="onLike(file)">comment <i class="bi bi-chat-left-dots-fill ms-2"></i></button>
+<div *ngIf="isData">
+    <div class="d-flex justify-content-center flex-wrap gap-2 p-3 ">
+        <div class="card text-start rounded-3 d-flex justify-content-center p-3" style="width:400px"
+            *ngFor="let file of mediaData">
+            <div *ngIf="file.file.mimetype.indexOf('image')>-1" class="text-center">
+                <img src="http://localhost:8000/{{file.file.filename}}" alt="image" loading="lazy" />
+                <p class="text-center">uploaded by : {{file.user}}</p>
+                <div class="d-flex justify-content-center align-items-center mt-2">
+                    <a href="http://localhost:8000/{{file.file.filename}}" target="_blank"
+                        class="btn btn-outline-warning">View <i class="bi bi-binoculars-fill ms-2"></i></a>
+                    <button *ngIf="!medialikes.includes(file._id)" class="btn btn-outline-info ms-2 like"
+                        (click)="onLike(file)">Like <i class="bi bi-hand-thumbs-up-fill like"></i></button>
+                    <button *ngIf="medialikes.includes(file._id)" class="btn btn-info ms-2 like"
+                        (click)="onDislike(file)">Like <i class="bi bi-hand-thumbs-up-fill"></i></button>
+                    <button class="btn btn-outline-success ms-2 " data-bs-toggle="modal" data-bs-target="#modalId" (click)="onLike(file)">comment <i
+                            class="bi bi-chat-left-dots-fill ms-2"></i></button>
+                </div>
             </div>
-        </div>
-        <div *ngIf="file.file.mimetype.indexOf('video')>-1" class="text-center">
-            <video controls>
-                <source src="http://localhost:8000/{{file.file.filename}}" type="video/mp4"/>
-            </video>
-            <p class="text-center">uploaded by : {{file.user}}</p>
-            <div class="d-flex justify-content-center my-1">
-                <a href="http://localhost:8000/{{file.file.filename}}" target="_blank" class="btn btn-outline-warning">View <i class="bi bi-binoculars-fill ms-2"></i></a>
-                <button class="btn btn-outline-info ms-2 like" (click)="onLike(file)">Like <i class="bi bi-hand-thumbs-up-fill"></i></button>
-                <button class="btn btn-outline-success ms-2 like" (click)="onLike(file)">comment <i class="bi bi-chat-left-dots-fill ms-2"></i></button>
+            <div *ngIf="file.file.mimetype.indexOf('video')>-1" class="text-center">
+                <video controls>
+                    <source src="http://localhost:8000/{{file.file.filename}}" type="video/mp4" loading="lazy" />
+                </video>
+                <p class="text-center">uploaded by : {{file.user}}</p>
+                <div class="d-flex justify-content-center my-1">
+                    <a href="http://localhost:8000/{{file.file.filename}}" target="_blank"
+                        class="btn btn-outline-warning">View <i class="bi bi-binoculars-fill ms-2"></i></a>
+                    <button *ngIf="!medialikes.includes(file._id)" class="btn btn-outline-info ms-2 like"
+                        (click)="onLike(file)">Like <i class="bi bi-hand-thumbs-up-fill"></i></button>
+                    <button *ngIf="medialikes.includes(file._id)" class="btn btn-info ms-2 like" (click)="onDislike(file)">Like
+                        <i class="bi bi-hand-thumbs-up-fill"></i></button>
+                    <button class="btn btn-outline-success ms-2 like" data-bs-toggle="modal" data-bs-target="#modalId" (click)="onLike(file)">comment <i
+                            class="bi bi-chat-left-dots-fill ms-2"></i></button>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
+        aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">
+                        Comments
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="d-flex justify-content-end">
+                            <div>
+                                <input type="text" [ngClass]="{'is-invalid': submitted && f['comment'].errors}" formControlName="comment"  class="form-control" placeholder="your comments here..." >
+                                <div class="invalid-feedback" *ngIf="submitted && f['comment'].errors">
+                                    <div *ngIf="f['comment'].errors['required']">Comment is required!</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-success ms-2" type="submit">add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional: Place to the bottom of scripts -->
+    <script>
+        const myModal = new bootstrap.Modal(
+            document.getElementById("modalId"),
+            options,
+        );
+    </script>
+
 </div>

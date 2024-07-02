@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit{
             this.storageService.setToken(response.body.data.token,remember)
             this.storageService.setRole(response.body.data.user.role)
             this.storageService.setName(response.body.data.user.name)
+            this.storageService.setUser(response.body.data.user)
             this.router.navigateByUrl("")
           })
         },

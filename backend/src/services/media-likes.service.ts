@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { MediaLikesComments } from "../models";
 import { ApiResponse, successCodes } from "../utils";
 
@@ -5,12 +6,12 @@ export class MediaLikesService{
     async addlike(fileid:string,userid:string){
         const fileData = await MediaLikesComments.findOne({media:fileid})
         if(!fileData){
-            const data = await MediaLikesComments.create({media:fileid,likes:[userid]})
+            const data = await MediaLikesComments.create({media:fileid,likes:[new mongoose.Types.ObjectId(userid) ]})
             return new ApiResponse(successCodes.OK,data,"Like added successfully")
         }
         const data = await MediaLikesComments.findOneAndUpdate({media:fileid},{
             $push:{
-                likes:userid
+                likes:new mongoose.Types.ObjectId(userid)
             }
         })
         return new ApiResponse(successCodes.OK,data,"Like added successfully")
@@ -18,14 +19,17 @@ export class MediaLikesService{
     async removeLike(fileid:string,userid:string){
         const data = await MediaLikesComments.findOneAndUpdate({media:fileid},{
             $pull:{
-                likes:userid
+                likes:new mongoose.Types.ObjectId(userid)
             }
         })
         return new ApiResponse(successCodes.OK,data,"Like removed successfully")
     }
 
-    async getLikes(fileid:string){
-        const data = await MediaLikesComments.findOne({media:fileid}).select("_id media likes")
+    async getLikes(userid:string){
+        const data = await MediaLikesComments.find({
+            likes:new mongoose.Types.ObjectId(userid)
+        })
+        // console.log(data);
         return new ApiResponse(successCodes.OK,data,"Likes fetched successfully")
     }
 
@@ -50,12 +54,12 @@ export class MediaLikesService{
         })
         return new ApiResponse(successCodes.OK,data,"Comment added successfully")
     }
-    async removeComment(fileid:string,userid:string,comment:string){
+    async removeComment(fileid:string,userid:string,commentid:string){
         const data = await MediaLikesComments.findOneAndUpdate({media:fileid},{
             $pull:{
                 comments:{
                     userid:userid,
-                    comment:comment
+                    _id:commentid
                 }
             }
         })

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IUser } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,13 @@ export class StorageService {
 
   getName(){
     return localStorage.getItem("name")
+  }
+
+  setUser(user:IUser){
+    localStorage.setItem("user",JSON.stringify(user))
+  }
+  getUser(){
+    return JSON.parse(localStorage.getItem("user") as string)
   }
 
   clear(){

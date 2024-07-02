@@ -10,6 +10,7 @@ import { ManageMediaComponent } from './manage-media/manage-media.component';
 import { TableModule } from 'primeng/table';
 import { MediaFeedComponent } from './media-feed/media-feed.component';
 import { ContentFeedComponent } from './content-feed/content-feed.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ContentFeedComponent } from './content-feed/content-feed.component';
     CommonModule,
     PagesRoutingModule,
     ChartModule,
-    TableModule
+    TableModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }
